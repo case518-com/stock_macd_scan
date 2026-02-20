@@ -1,0 +1,36 @@
+name: 月MACD掃描 - 每月5號自動執行
+
+on:
+  schedule:
+    # 每月5號 台灣時間 09:00（UTC+8 → UTC 01:00）
+    - cron: '0 1 5 * *'
+  # 也可以手動在 GitHub 頁面觸發，方便測試
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 取出程式碼
+        uses: actions/checkout@v4
+
+      - name: 設定 Python 環境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: |
+          pip install yfinance pandas requests lxml html5lib
+
+      - name: 執行掃描
+        run: python scan_monthly.py
+
+      - name: 將結果寫回 GitHub
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scan_result.txt
+          git diff --cached --quiet || git commit -m "📊 $(date +'%Y-%m') 月MACD掃描結果"
+          git push
