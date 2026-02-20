@@ -14,7 +14,7 @@ from datetime import datetime, time as dtime, timezone, timedelta
 
 SCAN_RESULT_FILE = 'scan_result.txt'
 ALERT_LOG_FILE   = 'alert_log.json'
-NOTIFY_URL       = 'https://case.acsite.org/arduino2/insert.php?num='
+NOTIFY_URL       = 'https://project.acsite.org/insert.php?num='
 COOLDOWN_HOURS   = 1   # 同一檔股票最少間隔幾小時才再通知
 
 TZ_TW = timezone(timedelta(hours=8))
@@ -24,16 +24,12 @@ TZ_TW = timezone(timedelta(hours=8))
 # 交易時間判斷
 # ────────────────────────────────────────────
 
-#def is_trading_time():
-#    now = datetime.now(TZ_TW)
-#    if now.weekday() >= 5:
-#        return False
-#    t = now.time()
-#    return dtime(9, 0) <= t <= dtime(13, 30)
-
-# 測試用，直接回傳 True
 def is_trading_time():
-    return True
+    now = datetime.now(TZ_TW)
+    if now.weekday() >= 5:
+        return False
+    t = now.time()
+    return dtime(9, 0) <= t <= dtime(13, 30)
 
 
 # ────────────────────────────────────────────
@@ -141,8 +137,12 @@ def get_current_price(code, market):
 
 def notify(code, name, current_price, monthly_low):
     url = f"{NOTIFY_URL}{code}"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    }
     try:
-        resp = requests.get(url, timeout=10)
+        resp = requests.get(url, headers=headers, timeout=10)
         print(f"  🔔 觸價通知 {code} {name}  即時:{current_price} < 月低:{monthly_low}")
         print(f"     網址：{url}")
         print(f"     回應：HTTP {resp.status_code}  {resp.text[:100]}")
