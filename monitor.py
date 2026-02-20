@@ -10,7 +10,7 @@ import re
 from datetime import datetime, time as dtime
 
 SCAN_RESULT_FILE = 'scan_result.txt'
-NOTIFY_URL       = 'https://project.acsite.org/insert.php?num='
+NOTIFY_URL       = 'https://case.acsite.org/arduino2/insert.php?num='
 
 # ────────────────────────────────────────────
 # 交易時間判斷（UTC+8 台灣時間）
