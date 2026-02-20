@@ -14,7 +14,7 @@ from datetime import datetime, time as dtime, timezone, timedelta
 
 SCAN_RESULT_FILE = 'scan_result.txt'
 ALERT_LOG_FILE   = 'alert_log.json'
-NOTIFY_URL       = 'https://project.acsite.org/insert.php?num='
+NOTIFY_URL       = 'https://case.acsite.org/arduino2/insert.php?num='
 COOLDOWN_HOURS   = 1   # 同一檔股票最少間隔幾小時才再通知
 
 TZ_TW = timezone(timedelta(hours=8))
