@@ -2,8 +2,7 @@ name: 盤中股價監控 - 每10分鐘
 
 on:
   schedule:
-    # UTC 時間，台灣時間 09:00~13:30 = UTC 01:00~05:30
-    # 每10分鐘觸發一次（程式內部會自動判斷是否在交易時間）
+    # 台灣時間 09:00~13:30 = UTC 01:00~05:30，每10分鐘
     - cron: '0,10,20,30,40,50 1,2,3,4,5 * * 1-5'
   workflow_dispatch:
 
@@ -25,3 +24,11 @@ jobs:
 
       - name: 執行股價監控
         run: python monitor.py
+
+      - name: 儲存通知紀錄回 GitHub
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add alert_log.json
+          git diff --cached --quiet || git commit -m "📋 更新觸價通知紀錄 $(date +'%Y-%m-%d %H:%M')"
+          git push
