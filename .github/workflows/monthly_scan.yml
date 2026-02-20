@@ -3,7 +3,7 @@ name: 月MACD掃描 - 每月5號自動執行
 on:
   schedule:
     # 每月5號 台灣時間 09:00（UTC+8 → UTC 01:00）
-    - cron: '0 1 5 * *'
+    - cron: '0 1 * * 6'
   # 也可以手動在 GitHub 頁面觸發，方便測試
   workflow_dispatch:
 
