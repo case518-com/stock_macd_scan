@@ -24,13 +24,16 @@ TZ_TW = timezone(timedelta(hours=8))
 # 交易時間判斷
 # ────────────────────────────────────────────
 
-def is_trading_time():
-    now = datetime.now(TZ_TW)
-    if now.weekday() >= 5:
-        return False
-    t = now.time()
-    return dtime(9, 0) <= t <= dtime(13, 30)
+#def is_trading_time():
+#    now = datetime.now(TZ_TW)
+#    if now.weekday() >= 5:
+#        return False
+#    t = now.time()
+#    return dtime(9, 0) <= t <= dtime(13, 30)
 
+# 測試用，直接回傳 True
+def is_trading_time():
+    return True
 
 # ────────────────────────────────────────────
 # 通知紀錄讀寫（alert_log.json）
